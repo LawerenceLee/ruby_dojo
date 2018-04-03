@@ -39,4 +39,4 @@ not_vals = (1..100).reject { |i| i > 10 }
 print not_vals
 
 puts 
-9.upto(30) { |i| print i*2, " "}
+9.upto(30) { |i| print i*2, " " }
