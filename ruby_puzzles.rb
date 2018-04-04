@@ -47,7 +47,7 @@ puts "MIN: #{arr2.min}"
 # Create a random string that is 5 characters long (hint: (65+rand(26)).chr returns a random character)
 def randStr()
     str = ""
-    5.times { str << (65 + rand(26)).chr}
+    5.times { str << (65 + rand(26)).chr }
     return str
 end
 puts str
