@@ -1,12 +1,13 @@
 class MathDojo
-    attr_accessor :result
     def initialize
         @result = 0
     end
 
+    attr_accessor :result
+
     def add *args
         for arg in args
-            if arg.class == Fixnum || arg.class == Float
+            if arg.class == Fixnum
                 @result += arg
             elsif arg.class == Array
                 arg.each { |num| @result += num}
@@ -17,7 +18,7 @@ class MathDojo
 
     def subtract *args
         for arg in args
-            if arg.class == Fixnum || arg.class == Float
+            if arg.class == Fixnum
                 @result -= arg
             elsif arg.class == Array
                 arg.each { |num| @result -= num}
