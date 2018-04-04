@@ -20,6 +20,11 @@ class Lion < Mammal
         @health += 20
         return self
     end
+
+    def display_health
+        puts "This is a lion"
+        super
+    end
 end
 
 
