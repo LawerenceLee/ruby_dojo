@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
     has_many :blogs, through: :owners
     has_many :posts, dependent: :delete_all
     has_many :messages, dependent: :delete_all
+    has_many :comments, as: :model
 
     validates :first_name, :last_name, presence: true, length: { minimum: 2}
     EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
