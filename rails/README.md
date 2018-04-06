@@ -55,6 +55,10 @@ validates :email, presence: true, uniqueness: { case_sensitiveness: false }, for
 #### Selecting Fields 
     Dojo.find(2).ninjas.select(:first_name)
 
+#### Specifying Raw SQL Join
+    joins = "JOIN users ON messages.user_id = users.id JOIN posts ON messages.post_id = posts.id JOIN blogs ON posts.blog_id = blogs.id"
+    Message.joins(joins).all
+
 #### Using Where
     Blog.where("id < 5")
     Player.includes(:team).where("teams.name = 'Los Angeles Lakers'").references(:team)
@@ -82,6 +86,10 @@ Use pluck as a shortcut to select one or more attributes without loading a bunch
 
     Player.pluck(:name) # just the names column as a list
     Player.joins(:team).where("teams.stadium = 'Staples Center'").pluck(:name, "teams.name")
+
+#### Using a LIKE Statement
+    Player.joins(:team).where("players.name LIKE 'Z%'").pluck("teams.name")
+dd
 ***
 ## Classes
 #### Return all instance variables for a class.
@@ -92,6 +100,7 @@ def context
     end
 end
 ```
+
 ***
 ## Ruby and Rails Installation
 ```bash
