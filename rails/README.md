@@ -9,16 +9,19 @@
     bundle install
 
 #### New Model
-    rails g model model_name field_name1:string field_name2:text
+    rails g model ModelName field_name1:string field_name2:text
 
 #### New Model w/ Foreign Key
-    rails g model model_name lower_case_model_name:references
+    rails g model ModelName lower_case_model_name:references
 
 ### Starting Rails Shell
     rails c
 
 ***
 ## ORM
+
+#### Using Hirb
+    Hirb-enable
 
 #### Cascade Delete
     ...
@@ -52,14 +55,25 @@ validates :email, presence: true, uniqueness: { case_sensitiveness: false }, for
 #### Selecting Fields 
     Dojo.find(2).ninjas.select(:first_name)
 
+#### Using Where
+    Blog.where("id < 5")
+
 #### Ordering 
-    User.order(:first_name :desc)
+    User.order(first_name: :desc)
 More details: http://guides.rubyonrails.org/active_record_querying.html#ordering
 
 #### Example of Custom Error message
 ```ruby
 validates :age, presence: true, numericality: true, inclusion: { in: 10..150, message: "must be between 10-150" }
 ```
+
+#### Validating Length
+    class Person < ApplicationRecord
+        validates :name, length: { minimum: 2 }
+        validates :bio, length: { maximum: 500 }
+        validates :password, length: { in: 6..20 }
+        validates :registration_number, length: { is: 6 }
+    end
 ***
 ## Classes
 #### Return all instance variables for a class.
@@ -69,4 +83,16 @@ def context
       { attribute => self.instance_variable_get(attribute) }
     end
 end
+```
+***
+## Ruby and Rails Installation
+```bash
+$ brew install gpg
+$ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+$ \curl -sSL https://get.rvm.io | bash -s stable
+$ source /Users/lawerencelee/.rvm/scripts/rvm
+$ rvm install 2.3.1
+$ rvm use 2.3.1 --default
+$ gem install bundler --no-ri --no-rdoc
+$ gem install rails -v 4.2.7 --no-ri --no-rdoc
 ```
