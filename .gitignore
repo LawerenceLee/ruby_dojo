@@ -1,3 +1,4 @@
 .
 ..
 .gitignore
+rails/blogs_posts_messages/app/models/db_insertion.rb

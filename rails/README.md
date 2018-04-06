@@ -57,6 +57,8 @@ validates :email, presence: true, uniqueness: { case_sensitiveness: false }, for
 
 #### Using Where
     Blog.where("id < 5")
+    Player.includes(:team).where("teams.name = 'Los Angeles Lakers'").references(:team)
+    Player.joins(:team).where("teams.name = 'Los Angeles Lakers'")
 
 #### Ordering 
     User.order(first_name: :desc)
@@ -74,6 +76,12 @@ validates :age, presence: true, numericality: true, inclusion: { in: 10..150, me
         validates :password, length: { in: 6..20 }
         validates :registration_number, length: { is: 6 }
     end
+
+#### Working with .pluck 
+Use pluck as a shortcut to select one or more attributes without loading a bunch of records just to grab the attributes you want.
+
+    Player.pluck(:name) # just the names column as a list
+    Player.joins(:team).where("teams.stadium = 'Staples Center'").pluck(:name, "teams.name")
 ***
 ## Classes
 #### Return all instance variables for a class.

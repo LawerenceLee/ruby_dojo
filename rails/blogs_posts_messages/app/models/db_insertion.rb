@@ -10,3 +10,4 @@ values = posts_list.map { |u| "('#{u[0]}','#{u[1]}',#{blog1.id})" }.join(",")
 ActiveRecord::Base.connection.execute("INSERT INTO posts (title, content, blog_id) VALUES #{values}")
 
 
+posts_list.each { |title, content| Post.create(:title => title, :content => content, :blog => Blog.find(4)) }
