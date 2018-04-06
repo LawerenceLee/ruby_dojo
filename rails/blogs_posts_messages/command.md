@@ -9,7 +9,7 @@ Destroy all comments--> Blog.first.comments.where("comments.id = 1").delete_all
 Destroy one comment--> Blog.first.comments.destroy_all
 ```
 
-## Post Command
+## Post Commands
 ```ruby
 Comment.create(content: "This is a comment", model: Post.first)
 Comment.update(2, content: "Posts are cool")
@@ -18,7 +18,7 @@ Destroy all comments--> Post.first.comments.where("comments.id = 2").delete_all
 Destroy one comment--> Post.first.comments.destroy_all
 ```
 
-## Message Command
+## Message Commands
 ```ruby
 Comment.create(content: "This is a comment", model: Message.first)
 Comment.update(3, content: "Messages are cool")
