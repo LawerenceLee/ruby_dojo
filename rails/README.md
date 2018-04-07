@@ -5,6 +5,10 @@
 #### New Project
     rails new app_name
 
+#### Starting Server
+    bin/rails server
+    *The use of bin makes sure the server is using the version of rails that you built your app in*`
+
 #### Installing All Gems
     bundle install
 
@@ -92,6 +96,10 @@ Use pluck as a shortcut to select one or more attributes without loading a bunch
 dd
 ***
 ## Classes
+
+#### Printing all methods for an object
+    p 2.methods.sorts
+
 #### Return all instance variables for a class.
 ```ruby
 def context
@@ -113,3 +121,9 @@ $ rvm use 2.3.1 --default
 $ gem install bundler --no-ri --no-rdoc
 $ gem install rails -v 4.2.7 --no-ri --no-rdoc
 ```
+
+## Definitions
+
+* Model: Writes Ruby objects to the database and reads them later
+* Views: Shows data to users, most often in HTML
+* Controllers: Respond to requests by users, cordinates with Model and View
