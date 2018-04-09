@@ -157,6 +157,19 @@ resources :products
 ```
 *Use: `rake routes` to see the list above outputed to the terminal*
 
+### Named Routes
+```ruby
+# Prefix Verb   URI Pattern                 Controller#Action    Route Name
+get             "/users",                   to: "users#index",   as: :users
+post            "users(.:format)",          to: "users#create" 
+get             "users/new(.:format)",      to: "users#new",     as: :new_user
+get             "users/:id",                to: "users#show",    as: :user
+get             "users/:id/edit(.:format)", to: "users#edit",    as: :edit_user
+patch           "users/:id(.:format)",      to: "users#update"
+put             "users/:id(.:format)",      to: "users#update"
+delete          "users/:id(.:format)",      to: "users#destroy"
+```
+
 ### Routing "/"
     root :to => "pages#show"
 
@@ -193,6 +206,11 @@ def index
   @products = Product.all
   render json: @products
 end
+```
+
+### ReSTful Controller Views w/ one command
+```ruby
+rails g scaffold_controller Products
 ```
 
 ### Signed In or new user view
@@ -249,6 +267,12 @@ else
     flash[:success] = "You did it!"
     redirect_to '/users/'
 end
+```
+```html
+<!-- html snippet for Flash -->
+<% flash.each do |key, value| %>
+    <%= content_tag :div, value, class: "flash #{key}" %>
+<% end %>
 ```
 *Flash Shortcuts below:*
 ```ruby
