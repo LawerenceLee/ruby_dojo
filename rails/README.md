@@ -258,6 +258,50 @@ end
 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 ```
 ***
+## Forms
+```html
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.text_field :name %>
+    <%= f.submit %>
+  </div>
+<% end %>
+```
+There is another way this can be done:
+```html
+<form action='/products/' method='post'>
+  <input type='text' name='product[name]' placeholder='name' />
+  <input type='text' name='product[description]' placeholder='description' />
+  <input type='submit' value='Create' />
+</form>
+```
+
+#### Patch Method w/o using Form Helpers
+```html
+<form action="/blogs/<%= blog.id %>" method="post">
+    <input type="hidden" name="_method" value="patch">
+</form>
+```
+
+#### Delete Method with Form Helper
+A JavaScript file included in the Rails' scaffolding code automatically looks for data-method in the anchor tag and submits a post with the _method parameter set to delete, like in the form above.
+```html
+<a href="/blogs/<%= blog.id %>" data-method="delete">Delete this blog!</a>
+```
+
+***
 ## Flash
 ```ruby
 if errors?
