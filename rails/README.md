@@ -379,6 +379,9 @@ $ rvm use 2.3.1 --default
 $ gem install bundler --no-ri --no-rdoc
 $ gem install rails -v 4.2.7 --no-ri --no-rdoc
 ```
+***
+## Dates and Times
+https://www.tutorialspoint.com/ruby/ruby_date_time.htm
 
 ## Definitions
 
@@ -396,7 +399,7 @@ $ gem install rails -v 4.2.7 --no-ri --no-rdoc
     ```
     ```bash
     $ bundle install
-    $ rails generate rails_footnotes:copyinstall
+    $ rails generate rails_footnotes:install
     ```
 ***
 ## Pastable Development Gems
