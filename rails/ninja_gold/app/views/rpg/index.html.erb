@@ -1,0 +1,41 @@
+<p>Your Gold: <span class="border"><%= session['gold'] %> golds</span></p>
+<div id="all_acts">
+    <div class="activities border">
+        <h3>Farm</h3>
+        <p>(earns 10-20 golds)</p>
+        <form action="/rpg/farm" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="submit" value="Find Gold!">
+        </form>
+    </div>
+    <div class="activities border">
+        <h3>Cave</h3>
+        <p>(earns 5-10 golds)</p>
+        <form action="/rpg/cave" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="submit" value="Find Gold!">
+        </form>
+    </div>
+    <div class="activities border">
+        <h3>House</h3>
+        <p>(earns 2-5 golds)</p>
+        <form action="/rpg/house" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="submit" value="Find Gold!">
+        </form>
+    </div>
+    <div class="activities border">
+        <h3>Casino</h3>
+        <p>(earns/takes 0-50 golds)</p>
+        <form action="/rpg/casino" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="submit" value="Find Gold!">
+        </form>
+    </div>
+</div>
+<p>Activities</p>
+<div id="act_display" class="border">
+    <% session['activities'].each do |activity, color| %>
+        <p style="color:<%= color %>"><%= activity %></p>
+    <% end %>
+</div>
