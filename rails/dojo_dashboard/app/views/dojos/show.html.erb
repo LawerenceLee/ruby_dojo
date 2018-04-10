@@ -1,0 +1,6 @@
+<h1><%= @dojo.branch %> Dojo</h1>
+
+<h3>Address: <%= @dojo.street %></h3>
+<h3>City: <%= @dojo.city %> State: <%= @dojo.state %></h3>
+
+<%= link_to "Home", :main %> | <%= link_to "Edit", "/dojos/#{@dojo.id}/edit" %>

@@ -14,4 +14,4 @@ dojos = [
     ['Chicago', '4444 Institute Pl', "Chicago", "IL"]
 ]
 
-dojos.each { |branch, street, city, state| Dojo.create(branch: "CD " + branch, street: street, city: city, state: state) }
+dojos.each { |branch, street, city, state| Dojo.create(branch: branch, street: street, city: city, state: state) }

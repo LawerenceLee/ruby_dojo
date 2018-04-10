@@ -330,7 +330,7 @@ end
 <!-- html snippet for Flash -->
 <% flash.each do |key, value| %>
     <%= content_tag :div, value, class: "flash #{key}" %>
-<% end >%
+<% end %>
 ```
 *Flash Shortcuts below:*
 ```ruby

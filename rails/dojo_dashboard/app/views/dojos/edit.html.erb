@@ -1,5 +1,7 @@
-<%= form_for(@dojo) do |f| %>
-    <% if @user.errors.any? %>
+<h1>Editing <%= @dojo.branch %></h1>
+
+<%= form_for(@dojo, url: :update) do |f| %>
+    <% if @dojo.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@dojo.errors.count, "error") %> prohibited this user from being saved:</h2>
   
@@ -12,18 +14,20 @@
     <% end %>
 
     <div class="fields">
-        <% label_tag(:branch, "Branch:") %>
+        <%= label_tag(:branch, "Branch:") %>
         <%= f.text_field :branch %><br><br>
-        <% label_tag(:street, "Street:") %>
+        <%= label_tag(:street, "Street:") %>
         <%= f.text_field :street %><br><br>
-        <% label_tag(:city, "City:") %>
+        <%= label_tag(:city, "City:") %>
         <%= f.text_field :city %><br><br>
-        <% label_tag(:state, "State:") %>
+        <%= label_tag(:state, "State:") %>
         <%= f.text_field :state %><br><br>
     </div>
   
     <div class="actions">
       <%= f.submit %>
     </div>
-  <% end %>
+<% end %>
+
   
+<%= link_to "Home", :main %> 
