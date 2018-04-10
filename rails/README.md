@@ -279,6 +279,20 @@ end
   </div>
 <% end %>
 ```
+#### Fixing undefined method 'modelname_path' for ...
+Change your top line from:
+```html
+<%= form_for(@ninja) do |f| %>
+```
+To:
+```html
+<%= form_for(@ninja, url: "<the_url_path_you_want>") do |f| %>
+```
+*Rails defaults to thinking your app is configured w/ a ReSTful route architecture, when its not you need to specify your url's path*
+
+http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for-label-Resource-oriented+style
+
+
 There is another way this can be done:
 ```html
 <form action='/products/' method='post'>
@@ -316,7 +330,7 @@ end
 <!-- html snippet for Flash -->
 <% flash.each do |key, value| %>
     <%= content_tag :div, value, class: "flash #{key}" %>
-<% end %>
+<% end >%
 ```
 *Flash Shortcuts below:*
 ```ruby

@@ -1,0 +1,29 @@
+<%= form_for(@ninja, url: "") do |f| %> 
+    <% if @ninja.errors.any? %>
+        <div id="error_explaination">
+            <h2><%= pluralize(@ninja.errors.count, "error") %> prohibited this ninja from being saved:</h2>
+
+            <ul>
+            <% @ninja.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <div class="fields">
+        <%= label_tag(:name, "Name:") %>
+        <%= f.text_field :name %><br>
+        <%= label_tag(:location, "Dojo Location:") %>
+        <%= f.select(:location, ["Mountain View", "Los Angeles", "New York"]) %><br>
+        <%= label_tag(:language, "Favorite Language:") %>
+        <%= f.select(:language, ["Python", "Ruby", "C++"]) %><br>
+        <%= label_tag(:comment, "Comment (optional):") %>
+        <%= f.text_area :comment %><br>
+    </div>
+
+    <div class="actions">
+        <%= f.submit %>
+    </div>
+
+<% end %>
