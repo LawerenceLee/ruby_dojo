@@ -1,12 +1,20 @@
 Rails.application.routes.draw do
-  get 'dojos', to: "dojos#main", as: :main
-  post 'dojos/create', to: "dojos#create", as: :create
-  get 'dojos/new', to: "dojos#new", as: :new
-  get 'dojos/:id', to: "dojos#show", as: :show
-  patch 'dojos/:id', to: "dojos#update", as: :update
-  put 'dojos/:id', to: "dojos#update" 
-  get 'dojos/:id/edit', to: "dojos#edit", as: :edit
-  delete 'dojos/:id', to: "dojos#destroy", as: :destroy
+  get    'dojos/:dojo_id/students/new',      to: "students#new", as: :student_new
+  post   'dojos/:dojo_id/students',          to: "students#create", as: :student_create
+  get    'dojos/:dojo_id/students/:id',      to: "students#show", as: :student_show
+  get    'dojos/:dojo_id/students/:id/edit', to: "students#edit", as: :student_edit
+  patch  'dojos/:dojo_id/students/:id',      to: "students#update", as: :student_update
+  put    'dojos/:dojo_id/students/:id',      to: "students#update"
+  delete 'dojos/:dojo_id/students/:id',      to: "students#destroy", as: :student_destroy
+
+  get    'dojos',               to: "dojos#main", as: :main
+  post   'dojos/create',        to: "dojos#create", as: :create
+  get    'dojos/new',           to: "dojos#new", as: :new
+  get    'dojos/:dojo_id',      to: "dojos#show", as: :show
+  patch  'dojos/:dojo_id',      to: "dojos#update", as: :update
+  put    'dojos/:dojo_id',      to: "dojos#update" 
+  get    'dojos/:dojo_id/edit', to: "dojos#edit", as: :edit
+  delete 'dojos/:dojo_id',      to: "dojos#destroy", as: :destroy
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

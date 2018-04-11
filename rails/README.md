@@ -87,10 +87,16 @@ Player.pluck(:name) # just the names column as a list
 Player.joins(:team).where("teams.stadium = 'Staples Center'").pluck(:name, "teams.name")
 ```
 
+#### Raw SQL
+```ruby
+ActiveRecord::Base.connection.execute("Your query goes here")
+```
+
 #### Raw SQL Join
 ```ruby
 joins = "JOIN users ON messages.user_id = users.id JOIN posts ON messages.post_id = posts.id JOIN blogs ON posts.blog_id = blogs.id"
 Message.joins(joins).all
+
 ```
 
 #### Selecting Fields 

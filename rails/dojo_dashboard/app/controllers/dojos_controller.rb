@@ -50,7 +50,7 @@ class DojosController < ApplicationController
 
   private
     def set_dojo
-      @dojo = Dojo.find(params[:id])
+      @dojo = Dojo.find(params[:dojo_id])
     end
 
 
