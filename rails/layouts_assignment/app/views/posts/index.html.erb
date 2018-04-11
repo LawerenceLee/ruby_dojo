@@ -1,0 +1,57 @@
+<% content_for :left_column do %>
+<h1>All Posts</h1>
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Author</th>
+        </tr>
+        <% @posts.each do |post| %>
+            <tr>
+                <td><%= post.title %></td>
+                <td><%= post.content %></td>
+                <td><%= post.user.first_name %>  <%= post.user.last_name %></td>
+            </tr>
+        <% end %>
+    </table>
+<% end %>
+
+<% content_for :middle_column do %>
+    <h1>New Post</h1>
+    <%= form_for(@post, url: "") do |f| %>
+        <% if @post.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@post.errors.count, "error") %> prohibited this user from being saved:</h2>
+      
+            <ul>
+            <% @post.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+      
+        <div class="fields">
+            <%= label_tag(:title, "Title:") %>
+            <%= f.text_field :title %><br>
+            <%= label_tag(:content, "Content:") %>
+            <%= f.text_field :content %><br>
+            <%= label_tag(:user, "Author:") %>
+            <% peoples_array = User.all.map { |user| ["#{user.first_name} #{user.last_name}", user.id] } %>
+            <%= select_tag(:user, options_for_select(peoples_array)) %>
+
+
+        </div>
+
+        <div class="actions">
+            <%= f.submit %>
+        </div>
+    <% end %>
+    <br>
+    <%= link_to "All Posts", :posts_index, { class: "btn-sm	btn-info"} %>
+<% end %>
+
+<%= content_for :right_column do %>
+    <h1>Go to Users Page</h1>
+    <%= link_to "All Users", :users_index %>
+<% end %>

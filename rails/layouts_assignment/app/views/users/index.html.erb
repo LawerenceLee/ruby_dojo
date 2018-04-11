@@ -1,0 +1,50 @@
+<% content_for :title, "Users Index" %>
+<% content_for :left_column do %>
+    <h1>All Users</h1>
+    <table class="table">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Favorite Language</th>
+        </tr>
+        <% @users.each do |user| %>
+            <tr>
+                <td><%= user.first_name %></td>
+                <td><%= user.last_name %></td>
+                <td><%= user.favorite_language %></td>
+            </tr>
+        <% end %>
+    </table>
+<% end %>
+
+<% content_for :right_column do %>
+    <h1>New User</h1>
+    <%= form_for(@user, url: "") do |f| %>
+        <% if @user.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+      
+            <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+      
+        <div class="fields">
+            <%= label_tag(:first_name, "First Name:") %>
+            <%= f.text_field :first_name %><br>
+            <%= label_tag(:last_name, "Last Name:") %>
+            <%= f.text_field :last_name %><br>
+            <%= label_tag(:favorite_language, "Favorite Language:") %>
+            <%= f.text_field :favorite_language %><br>
+        </div>
+
+        <div class="actions">
+            <%= f.submit %>
+        </div>
+    <% end %>
+    <br>
+    <%= link_to "All Posts", :posts_index, { class: "btn-sm	btn-info"} %>
+<% end %>

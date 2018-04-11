@@ -266,23 +266,36 @@ end
 ***
 ## Forms
 ```html
-<%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<%= form_for(@user, url: "") do |f| %>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    
+        <ul>
+        <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+        </ul>
+        </div>
+    <% end %>
+    
+    <div class="fields">
+        <%= label_tag(:first_name, "First Name:") %>
+        <%= f.text_field :first_name %><br>
+        <%= label_tag(:last_name, "Last Name:") %>
+        <%= f.text_field :last_name %><br>
+        <%= label_tag(:favorite_language, "Favorite Language:") %>
+        <%= f.text_field :favorite_language %><br>
 
-      <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <!-- Other Examples -->
+        <%= f.collection_select(:user, User.all, :id, :first_name) %>
+        <% peoples_array = User.all.map { |user| ["#{user.first_name} #{user.last_name}", user.id] } %>
+        <%= select_tag(:user, options_for_select(peoples_array)) %>
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.text_field :name %>
-    <%= f.submit %>
-  </div>
+    <div class="actions">
+        <%= f.submit %>
+    </div>
 <% end %>
 ```
 #### Fixing undefined method 'modelname_path' for ...
@@ -386,6 +399,115 @@ def context
     end
 end
 ```
+***
+## Layouts
+```ruby
+class StudentsController < ApplicationController
+  # only the index and the new action will be loaded through app/views/layouts/dojos.html.erb
+  layout "dojos", only: [:profile, :info]
+  
+  def index
+    # renders with app/views/layouts/students.html.erb
+  end
+  
+  def new
+    # renders with app/views/layouts/students.html.erb
+  end
+  
+  def profile
+    # renders with app/views/layouts/dojos.html.erb
+  end
+  
+  def info
+    # renders with app/views/layouts/dojos.html.erb  
+  end
+  
+  def hello_world
+    render layout: "application"
+     # renders with app/views/layouts/application.html.erb
+  end
+end 
+```
+
+#### Structuring Layouts
+```ruby
+<!-- app/views/layouts/students.html.erb -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Dojo Dashboard | <%= yield :title %> </title>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+    </head>
+    <body>
+        <script type="text/javascript">
+            <%= yield :some_javascript %>
+        </script> 
+        <%= yield %>
+    </body>
+</html>
+
+<!-- app/views/users/index.html.erb -->
+<% content_for :title, "All Users" %>
+<% content_for :some_javascript do %>
+    alert("This alert comes from the all users page");
+<% end %>
+<h1>Listing all users</h1>
+<p>This is where you would have some code to display all the users</p>
+
+<!-- app/views/users/new.html.erb -->
+<% content_for :title, "New User" %>
+<% content_for :some_javascript do %>
+    alert("This alert comes from the new user page");
+<% end %>
+<h1>New User</h1>
+<p>This is where you would have a form to create a new user</p>
+```
+
+#### Asset Tag Helpers
+* auto_discovery_link_tag (for RSS or Atom feeds)
+* javascript_include_tag (linking Javascript files)
+* stylesheet_link_tag (linking to CSS files)
+* image_tag (linking to image files)
+* video_tag (linking to video files)
+* audio_tag (linking to audio files)
+*http://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html*
+
+#### Partials
+```ruby
+<!-- app/views/shared/_header.html.erb -->
+<header>
+    <h1>This can be a header shared by multiple views</h1>
+</header>
+
+
+<!-- app/views/shared/_footer.html.erb -->
+<footer>
+    <h1>This can be a footer shared by multiple views</h1>
+</footer>
+
+
+<!-- app/views/users/student_partial.html.erb -->
+<div>
+    <p>A paragraph that needs to be in all views for the students resource</p>
+</div>
+
+
+<!-- app/views/users/index.html.erb -->
+<!-- rendering the header partial from another folder. Notice the omission of the underscore -->
+<%= render "shared/header" %>
+<h1>This is the index view for all the students</h1>
+<!-- rendering the user_partial from the same folder. -->
+<%= render "student_partial" %>
+<!-- rendering the footer partial from another folder. -->
+<%= render "shared/footer" %>
+```
+## Link Tags
+```ruby
+<%= link_to  "Link Name", path_as_symbol_str_or_path %>
+```
+
 
 ***
 ## Ruby and Rails Installation
