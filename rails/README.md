@@ -503,10 +503,187 @@ end
 <!-- rendering the footer partial from another folder. -->
 <%= render "shared/footer" %>
 ```
+***
 ## Link Tags
 ```ruby
 <%= link_to  "Link Name", path_as_symbol_str_or_path %>
 ```
+***
+## RSpec
+
+### Setup
+1. Create an test file... `someProject_spec.rb`
+2. Be sure the file you are testing is adjacent to your test file.
+3. To run tests: `rspec someProject_spec.rb` or to run all test files `rspec .`
+
+```ruby
+require_relative 'project' # include our Project class in our spec file
+RSpec.describe Project do  
+  before(:each) do 
+    @project1 = Project.new('Project 1', 'description 1') # create a new project and make sure we can set the name attribute
+  end
+  it 'has a getter and setter for name attribute' do
+    @project1.name = "Changed Name" # this line would fail if our class did not have a setter method
+    expect(@project1.name).to eq("Changed Name") # this line would fail if we did not have a getter or if it did not change the name successfully in the previous line.
+  end 
+end
+```
+
+### describe
+The purpose of describe method is to wrap a set of tests against one functionality. For example, we can use the describe method to group together all the tests associated with buying soda.
+```ruby
+RSpec.describe "Buy a soda" do
+  # test code here
+end
+```
+
+### context
+The purpose of context is very similar to describe, but the key difference is that it groups together a set of tests against one functionality under the same state. You should use context when testing bigger projects, or when dealing with objects that have different states.
+```ruby
+RSpec.describe "Buy a soda" do 
+    context "has money" do 
+        # test code here
+    end
+    context "doesn't have money" do
+        # test code here
+    end
+end
+```
+### it
+The purpose of it is to describe the specific functionality you're testing in any given context. It is important to be as descriptive as you can because it will help you identify which tests have failed or passed.
+```ruby
+RSpec.describe "Buy a soda" do 
+    context "has money" do 
+        it "buy the soda" do 
+            # test to try to buy soda with some money
+        end
+    end
+    context "doesn't have money" do
+        it "can't buy the soda" do 
+            # test to try to buy soda without money
+        end
+    end
+end
+```
+
+### expect
+We can make several different assertions with RSpec. The one that we will be focusing on is expect. In this case, we will be using expect to establish what the intended outcome of a particular method call should be.
+```ruby
+RSpec.describe "Buy a soda" do 
+    context "has money" do 
+        it "buy the soda" do 
+            buyer = Buyer.new
+            buyer.money = 10
+            expect(buyer.buy_soda).to eq(true)
+        end
+    end
+    context "doesn't have money" do
+        it "can't buy the soda" do 
+            buyer = Buyer.new
+            buyer.money = 0
+            expect(buyer.buy_soda).to eq(false)
+        end
+    end
+end
+```
+
+### before
+before runs the given block of code before each test. before will help keep you from repeating code. We will be using before to run a block of code before each "context" statement and before each "it" statement.
+```ruby
+RSpec.describe "Buy a soda" do
+    before(:each) do 
+        @buyer = Buyer.new
+    end
+    
+    context "has money" do
+        before(:each) do 
+            @buyer.money = 10
+        end 
+        it "can buy a soda" do 
+            expect(@buyer.buy_soda).to eq(true)
+        end
+    end
+    context "doesn't have money" do
+        before(:each) do 
+            @buyer.money = 0
+        end     
+        it "can't buy a soda" do
+            expect(@buyer.buy_soda).to eq(false)
+        end
+    end
+end
+```
+The benefits of the before statement might not be so apparent in this simple example, but as you add more tests, it will make your tests more concise and easier to understand. Also, remember that before runs the code block before each "context" and "it" statements. In our example code, we are making sure that every time we have a new context, we have a new buyer. And inside each it block, we set the buyer's money to match the context of what we are trying to test.
+```ruby
+RSpec.describe "something" do
+    before(:each) do 
+        Buyer.create
+    end
+    it "assertion 1" do
+      # test code here
+    end
+    it "assertion 2" do 
+       # test code here    
+    end
+    it "assertion 3" do 
+      # test code here
+    end
+end
+```
+
+## Expectations
+#### Modifier - These are RSpec methods that help us read an expectation better:
+    expect
+#### Matchers - These usually consist of boolean operators. e.g:
+    >
+    <
+    >=
+    <=
+    ==
+#### Predicate Matcher - Commonly paired with the should modifier.
+    be_valid
+    be_within
+    be_a_kind_of
+    be_an_instance_of
+    be_true
+    be_false
+    be_nil
+    ...
+##### Alt ways of writing should and be:
+Alternative ways of writing should and be: 
+Example 1: player.ammo.should be > 10
+```ruby
+player.ammo.should > 10
+player.ammo.should_not <= 10
+player.ammo.should_not be <= 10
+```
+Example 2: ninja.happy?.should be_true (take note of the predicate method happy? predicate methods are boolean methods that end with a ?. These methods return either with true or false)
+```ruby
+ninja.happy?.should == true
+ninja.happy?.should_not == false
+ninja.happy?.should_not be_false
+ninja.happy?.should eq true
+ninja.should be_happy
+```
+
+## RSpec Expectations
+From the beginning, RSpec::Expectations provided should and should_not methods to define expectations on any object. In version 2.11, the expect method was introduced which is now the recommended way to define expectations on an object.
+
+Using the examples above, we can translate it to RSpec's expect and to format.
+
+Example 1: player.ammo.should be > 10
+```ruby
+expect(player.ammo).to be > 10
+expect(player.ammo).to_not be <= 10
+```
+Example 2: ninja.happy?.should be_true
+```ruby
+expect(ninja.happy?).to be_true
+expect(ninja).to be_happy
+```
+More info about expectation: RSpec Expectations Documentation
+
+*https://github.com/rspec/rspec-expectations/blob/master/Should.md*
 
 
 ***
