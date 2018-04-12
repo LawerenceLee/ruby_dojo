@@ -5,7 +5,7 @@ class BankAccount
         @@total_accounts
     end
 
-    attr_reader :account_num, :checking_balance, :savings_balance
+    attr_reader :account_num, :checking_balance, :savings_balance, :interest_rate
 
 
     def initialize
