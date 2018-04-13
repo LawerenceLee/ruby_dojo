@@ -773,3 +773,5 @@ $ gem install bundler
 $ bundle gem stringer --test=rspec
 
 ```
+***
+#### Clearing The Screen
