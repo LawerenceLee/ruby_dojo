@@ -748,3 +748,10 @@ https://www.tutorialspoint.com/ruby/ruby_date_time.htm
    gem 'hirb' 
    gem 'rails-footnotes', '>= 4.0.0', '<5'
 ```
+***
+## Creating Gems
+```bash
+$ gem install bundler
+$ bundle gem stringer --test=rspec
+
+```
