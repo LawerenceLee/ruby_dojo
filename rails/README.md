@@ -721,6 +721,24 @@ $ gem install bundler --no-ri --no-rdoc
 $ gem install rails -v 4.2.7 --no-ri --no-rdoc
 ```
 ***
+## RSpec For Rails Install
+    $ rails new <your_app_name> -T
+
+Paste the Gem into Gemfile
+
+    group :development, :test do
+        gem 'rspec-rails'
+    end
+In terminal
+
+    $ bundle install
+    $ rails generate rspec:install
+
+To Run RSpec Test Suite for your rails app
+
+    $ rspec spec
+
+***
 ## Dates and Times
 https://www.tutorialspoint.com/ruby/ruby_date_time.htm
 
