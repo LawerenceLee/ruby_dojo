@@ -739,8 +739,11 @@ To Run RSpec Test Suite for your rails app
     $ rspec spec
 
 ***
+
 ## Dates and Times
 https://www.tutorialspoint.com/ruby/ruby_date_time.htm
+
+***
 
 ## Definitions
 
@@ -748,6 +751,7 @@ https://www.tutorialspoint.com/ruby/ruby_date_time.htm
 * Views: Shows data to users, most often in HTML
 * Controllers: Respond to requests by users, cordinates with Model and View
 
+***
 ## Helpful Gems
 
 * hirb
@@ -765,7 +769,95 @@ https://www.tutorialspoint.com/ruby/ruby_date_time.htm
 ```ruby
    gem 'hirb' 
    gem 'rails-footnotes', '>= 4.0.0', '<5'
+   gem "factory_bot_rails", "~> 4.0"
+   gem 'capybara'
+   gem 'rspec-rails'
 ```
+*** 
+## Factory Bot Instructions
+```ruby
+# in Gemfile
+gem "factory_bot_rails", "~> 4.0"
+
+# in terminal
+$ bundle install 
+$ rails generate rspec:install
+
+# In spec/rails_helper.rb
+require "factory_bot_rails"
+RSpec.configure do |config|
+    config.include FactoryBot::Syntax::Methods
+end
+
+# in terminal if the following dirs are not made
+# $ mkdir spec/factories && mkdir spec/models
+# $ touch spec/factories/<model_name>.rb
+# $ touch spec/models/<model_name>_spec.rb
+
+# inside spec/factories/<model_name.rb>
+FactoryBot.define do
+  factory :user, class: User do
+    first_name "John"
+    last_name  "Doe"
+    admin false
+  end
+end
+
+# in spec/models/<model_name>_spec.rb
+require 'rails_helper'
+RSpec.describe User, type: :model do
+  context "With valid attributes" do 
+    it "should save" do 
+      expect(build(:user)).to be_valid
+    end
+  end
+  context "With invalid attributes" do 
+    it "should not save if first_name field is blank" do
+      expect(build(:user, first_name: "")).to be_invalid
+    end
+    it "should not save if last_name field is blank" do
+      expect(build(:user, last_name: "")).to be_invalid
+    end
+    it "should not save if email already exists" do
+      create(:user)
+      expect(build(:user)).to be_invalid
+    end
+    it "should not save if invalid email format" do
+      expect(build(:user, email: "invalidEmail")).to be_invalid
+    end
+  end
+end
+```
+
+***
+## Capybara Instructions
+```ruby
+# in Gemfile
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'capybara'
+end
+
+# in terminal
+$ bundle install
+$ rails generate rspec:install
+$ mkdir spec/features && touch spec/features/register_<model_name>_spec.rb
+
+# in spec/features/register_<model_name>_spec.rb
+require 'rails_helper'
+feature "guest user creates an account" do
+  scenario "successfully creates a new user account" do
+    visit new_user_path
+    fill_in "user_first_name", with: "shane"
+    fill_in "user_last_name", with: "chang"
+    fill_in "user_email", with: "schang@codingdojo.com"
+    click_button "Create User"
+    expect(page).to have_content "User successfully created"
+  end
+end
+```
+
 ***
 ## Creating Gems
 ```bash
@@ -775,3 +867,4 @@ $ bundle gem stringer --test=rspec
 ```
 ***
 #### Clearing The Screen
+    p %x{clear}
