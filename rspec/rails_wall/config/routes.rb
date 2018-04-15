@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+
+  get   'messages/index',           in: "messages#index", as: :index
+  post  'messages/process_message', in: 'messages#process_message'
+  post  'messages/process_comment', in: 'messages#process_comment' 
+  root "users#new"
+  get   'users/new',                in: "users#new", as: :new_user
+  post  'users/sign_in',            in: "users#sign_in"
+  get   'users/log_out',            in: "users#log_out", as: :log_out
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
