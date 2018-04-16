@@ -1,33 +1,36 @@
 Rails.application.routes.draw do
-  post 'likes' => 'likes#create'
+  post   'likes' => 'likes#create'
 
   delete 'likes' => 'likes#destroy'
 
-  get 'secrets' => 'secrets#index', as: :index_secrets
+
+  get    'secrets' => 'secrets#index', as: :index_secrets
 
   delete 'secrets' => 'secrets#destroy'
 
-  post 'secrets' => "secrets#create"
+  post   'secrets' => "secrets#create"
 
-  get 'users/new', as: :new_user
 
-  post 'users/new' => 'users#create'
+  get    'users/new', as: :new_user
 
-  get 'users/:id/edit' => 'users#edit'
+  post   'users/new' => 'users#create'
 
-  patch 'users/:id' => 'users#update'
+  get    'users/:id/edit' => 'users#edit'
 
-  get 'users/:id' => 'users#show'
+  patch  'users/:id' => 'users#update'
+
+  get    'users/:id' => 'users#show'
 
   delete 'users/:id' => 'users#destroy'
 
-  get 'sessions/new', as: :new_session
+
+  get    'sessions/new', as: :new_session
   
-  post 'sessions/create', in: 'sessions#create'
+  post   'sessions/create', in: 'sessions#create'
 
   delete 'sessions/:id' => 'sessions#destroy'
 
-  root 'sessions#new'
+  root   'sessions#new'
 
  
 

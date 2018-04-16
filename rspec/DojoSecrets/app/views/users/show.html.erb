@@ -9,7 +9,7 @@
 <% end %>
 <br>
 
-<% @secrets.each do |secret| %>
+<% current_user.secrets.each do |secret| %>
     <p><%= secret.content %></p>
     <% if current_user == secret.user %>
         <form action="/secrets" method="post">

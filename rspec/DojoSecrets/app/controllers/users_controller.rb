@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, only: [:new, :create]
-  
+  before_action :require_login, only: [:show, :edit, :update, :destroy]
+
   def new
   end
   
@@ -16,7 +16,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @secrets = current_user.secrets
   end
 
   def edit
