@@ -9,7 +9,7 @@
 <body>
   <% if flash[:errors] %>
     <% flash[:errors].each do |e| %>
-      <%= e %>
+      <p><%= e %></p>
     <% end %>
   <% end %>
   <% if current_user %>

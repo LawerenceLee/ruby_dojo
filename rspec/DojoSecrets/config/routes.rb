@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  # get 'users/new'
+  get 'users/new', as: :new_user
+  post 'users/new' => 'users#create'
 
   get 'users/:id' => 'users#show'
 
   # get 'users/edit'
 
-  get 'sessions/new', in: 'sessions#new', as: :new_session
+  get 'sessions/new', as: :new_session
   
   post 'sessions/create', in: 'sessions#create'
 
