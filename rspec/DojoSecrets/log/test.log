@@ -1,0 +1,1303 @@
+  [1m[36m (193.0ms)[0m  [1mDROP DATABASE IF EXISTS "DojoSecrets_test"[0m
+  [1m[35m (398.2ms)[0m  CREATE DATABASE "DojoSecrets_test" ENCODING = 'unicode'
+  [1m[36mSQL (0.6ms)[0m  [1mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (6.4ms)[0m  CREATE TABLE "likes" ("id" serial primary key, "user_id" integer, "secret_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.5ms)[0m  [1mCREATE  INDEX  "index_likes_on_secret_id" ON "likes" USING btree ("secret_id")[0m
+  [1m[35m (1.3ms)[0m  CREATE  INDEX  "index_likes_on_user_id" ON "likes" USING btree ("user_id")
+  [1m[36m (5.4ms)[0m  [1mCREATE TABLE "secrets" ("id" serial primary key, "content" text, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.4ms)[0m  CREATE  INDEX  "index_secrets_on_user_id" ON "secrets" USING btree ("user_id")
+  [1m[36m (3.7ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "name" character varying, "email" character varying, "password_digest" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (2.7ms)[0m  ALTER TABLE "likes" ADD CONSTRAINT "fk_rails_77f4d32fcf"
+FOREIGN KEY ("secret_id")
+  REFERENCES "secrets" ("id")
+
+  [1m[36m (1.5ms)[0m  [1mALTER TABLE "likes" ADD CONSTRAINT "fk_rails_1e09b5dabf"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (1.6ms)[0m  ALTER TABLE "secrets" ADD CONSTRAINT "fk_rails_df36f5197a"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36m (2.4ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (1.7ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36m (0.4ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20180416025528')
+  [1m[36m (0.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20180415183950')[0m
+  [1m[35m (0.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20180416025514')
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.9ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$cNLFmxHE6EFtk2VZlgvU3uo.ZipytmrHXMFiSd1AiUwTDwKxdi052"], ["created_at", "2018-04-16 22:25:18.926202"], ["updated_at", "2018-04-16 22:25:18.926202"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:18 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 443ms (Views: 430.7ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"YGTY02SkOK8+xUva9bVio5hc19LCpBDD2hLNmO5hLbuH10eB6cIAOnpvgfEdvA12oe5qq9q8G5iUPSh73KoBCA==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/1
+Completed 302 Found in 11ms (ActiveRecord: 0.3ms)
+Started GET "/users/1" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mSecret Load (0.5ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 1]]
+  Rendered users/show.html.erb within layouts/application (10.3ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+Completed 200 OK in 37ms (Views: 18.8ms | ActiveRecord: 1.7ms)
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["content", "MyText"], ["user_id", 1], ["created_at", "2018-04-16 22:25:19.508744"], ["updated_at", "2018-04-16 22:25:19.508744"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#index as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets"[0m
+  [1m[35m (0.6ms)[0m  SELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1  [["secret_id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mSecret Exists (0.6ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 1], ["id", 1]]
+  Rendered secrets/index.html.erb within layouts/application (18.5ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 28ms (Views: 24.3ms | ActiveRecord: 2.7ms)
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$.1iACSQ0blx9Sgl0Lre9fObbzbR51HMeyBnoOXCA6I8dPDHQv7sEe"], ["created_at", "2018-04-16 22:25:19.554707"], ["updated_at", "2018-04-16 22:25:19.554707"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"6lw17y5uwJWeh3NZGopjuLmC4IhWbalm3Rd8kL/5C0M1oT5hfvEvQSzrVU4zBO11GOtcTI7Qlng76Jbl/cKNcw==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/2
+Completed 302 Found in 3ms (ActiveRecord: 0.3ms)
+Started GET "/users/2" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mSecret Load (0.3ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 2]]
+  Rendered users/show.html.erb within layouts/application (1.5ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+Completed 200 OK in 5ms (Views: 3.4ms | ActiveRecord: 0.6ms)
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 2], ["created_at", "2018-04-16 22:25:19.577014"], ["updated_at", "2018-04-16 22:25:19.577014"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mSecret Load (0.3ms)[0m  SELECT "secrets".* FROM "secrets"
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1[0m  [["secret_id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mSecret Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1[0m  [["user_id", 2], ["id", 2]]
+  Rendered secrets/index.html.erb within layouts/application (4.8ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+Completed 200 OK in 8ms (Views: 6.3ms | ActiveRecord: 1.2ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$UiqdqUIVxkvHGAwQGPg9yez3ZDXOXkMQAQOw2TXUh51ACdh9Xxg5G"], ["created_at", "2018-04-16 22:25:19.595572"], ["updated_at", "2018-04-16 22:25:19.595572"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"VfQSoUxGsqP18/XH3mnC99vGkhtsuy8cAGztDi7waIO6V/7PxHZGZ1K0wcb5LlZ/jvgHsEYwjDvaq9T5/ThHyw==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/3
+Completed 302 Found in 3ms (ActiveRecord: 0.3ms)
+Started GET "/users/3" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 3]]
+  Rendered users/show.html.erb within layouts/application (1.5ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.6ms)
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["content", "MyText"], ["user_id", 3], ["created_at", "2018-04-16 22:25:19.618379"], ["updated_at", "2018-04-16 22:25:19.618379"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets"[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1  [["secret_id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mSecret Exists (0.4ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 3], ["id", 3]]
+  Rendered secrets/index.html.erb within layouts/application (5.0ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+Completed 200 OK in 8ms (Views: 6.5ms | ActiveRecord: 1.2ms)
+Started POST "/likes" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by LikesController#create as HTML
+  Parameters: {"authenticity_token"=>"3S2fvC4hxox7nb+FWiXWkFCQdeFP2jLyder1oDLoVLkyjnPSphEySNzai4R9YkIYBa7gSmVRkdWvLcxX4SB78Q==", "secret_id"=>"3"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mSecret Load (0.4ms)[0m  SELECT  "secrets".* FROM "secrets" WHERE "secrets"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 3], ["secret_id", 3], ["created_at", "2018-04-16 22:25:19.647480"], ["updated_at", "2018-04-16 22:25:19.647480"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/secrets
+Completed 302 Found in 12ms (ActiveRecord: 2.6ms)
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets"[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1  [["secret_id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mSecret Exists (0.3ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 3], ["id", 3]]
+  Rendered secrets/index.html.erb within layouts/application (4.9ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+Completed 200 OK in 9ms (Views: 6.6ms | ActiveRecord: 1.2ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$/4qtkkTS8SKJhzYmUYCUbe5uc0o0Ba7UW9daOfP7TngxtQ/mmu0ze"], ["created_at", "2018-04-16 22:25:19.669828"], ["updated_at", "2018-04-16 22:25:19.669828"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"cjNCfDDD3c+/P/W3NScS2PWK4fLwmX47BwVrRf9waNKzqtgCEUY/nxsXvg9hMO7d+SMgbfrlthQ4QY7wDzcY2A==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/4
+Completed 302 Found in 3ms (ActiveRecord: 0.3ms)
+Started GET "/users/4" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"4"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 4]]
+  Rendered users/show.html.erb within layouts/application (1.5ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+Completed 200 OK in 5ms (Views: 3.9ms | ActiveRecord: 0.5ms)
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 4], ["created_at", "2018-04-16 22:25:19.692941"], ["updated_at", "2018-04-16 22:25:19.692941"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 4], ["secret_id", 4], ["created_at", "2018-04-16 22:25:19.695745"], ["updated_at", "2018-04-16 22:25:19.695745"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets"[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1  [["secret_id", 4]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  [1m[35mSecret Exists (0.4ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 4], ["id", 4]]
+  Rendered secrets/index.html.erb within layouts/application (4.6ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+Completed 200 OK in 8ms (Views: 6.0ms | ActiveRecord: 1.2ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$VDdCT9vjL1922/Kux7zbFO/TJHMVD1hA1A1pgMikoSaeLNk8b0wg2"], ["created_at", "2018-04-16 22:25:19.714482"], ["updated_at", "2018-04-16 22:25:19.714482"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 2ms (Views: 2.1ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"UujsmMTsQ0t2GM2oWBm9ZZ3xcGMfvYLpNHEUsJX57UgK3zIFhHelJX54tUwKWquce4AdvFnT0ZPEfoLZJ/QUuw==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/5
+Completed 302 Found in 3ms (ActiveRecord: 0.3ms)
+Started GET "/users/5" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"5"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mSecret Load (0.3ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 5]]
+  Rendered users/show.html.erb within layouts/application (1.5ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.5ms)
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 5], ["created_at", "2018-04-16 22:25:19.739432"], ["updated_at", "2018-04-16 22:25:19.739432"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 5], ["secret_id", 5], ["created_at", "2018-04-16 22:25:19.742294"], ["updated_at", "2018-04-16 22:25:19.742294"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets"[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1  [["secret_id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mSecret Exists (0.3ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 5], ["id", 5]]
+  Rendered secrets/index.html.erb within layouts/application (4.8ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+Completed 200 OK in 8ms (Views: 6.2ms | ActiveRecord: 1.1ms)
+Started DELETE "/likes" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by LikesController#destroy as HTML
+  Parameters: {"authenticity_token"=>"rTqnAfQGyDs/0kIRx/JKqGdIMItdr5nsq17WTK5UdML1DXmctJ0uVTeyOvWVsVxRgTldVBvBypZbUUAlHFmNMQ==", "secret_id"=>"5"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mLike Load (0.3ms)[0m  SELECT "likes".* FROM "likes" WHERE (likes.user_id = 5 AND likes.secret_id = 5)
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  DELETE FROM "likes" WHERE "likes"."id" = $1  [["id", 3]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/secrets
+Completed 302 Found in 4ms (ActiveRecord: 1.2ms)
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets"[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1  [["secret_id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mSecret Exists (0.2ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 5], ["id", 5]]
+  Rendered secrets/index.html.erb within layouts/application (4.4ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+Completed 200 OK in 8ms (Views: 6.2ms | ActiveRecord: 0.9ms)
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$kxATeek8iZF3m.KJBXjSY.S9djfayYGLykhLWnYRBm09mV06JisWK"], ["created_at", "2018-04-16 22:25:19.779885"], ["updated_at", "2018-04-16 22:25:19.779885"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'user@user.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "user@user.com"], ["password_digest", "$2a$04$16sLTYrU9i1mZp6RJCrnT./pfIc8Xd1nZr/eTL31oz4gxZYeqtgG2"], ["created_at", "2018-04-16 22:25:19.785035"], ["updated_at", "2018-04-16 22:25:19.785035"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "Lets make this content unique"], ["user_id", 7], ["created_at", "2018-04-16 22:25:19.787832"], ["updated_at", "2018-04-16 22:25:19.787832"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 2ms (Views: 2.0ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"Q9lD4zMXu3Q8lpdsjMwEekaPFsIU/zQGDXDbApGcKnkbb03Ajw5EdEBETUwTNAtxUotn5iaHXE4aD2f31ivBTw==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/6
+Completed 302 Found in 4ms (ActiveRecord: 0.3ms)
+Started GET "/users/6" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 6]]
+  Rendered users/show.html.erb within layouts/application (1.8ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
+Completed 200 OK in 36ms (Views: 33.6ms | ActiveRecord: 0.6ms)
+Started GET "/users/6" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 6]]
+  Rendered users/show.html.erb within layouts/application (1.4ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 6]]
+Completed 200 OK in 6ms (Views: 3.5ms | ActiveRecord: 0.5ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$U1naHlCuFWLAaGdcJYEeM.CLJ4e1/79V2WZs4jhtpDC/vXne3.gy6"], ["created_at", "2018-04-16 22:25:19.858736"], ["updated_at", "2018-04-16 22:25:19.858736"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'user@user.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "user@user.com"], ["password_digest", "$2a$04$fxLZwTSM2zYqvkw/svv/qOA6aehNOZA8/J2ht/XoRMpyU88k66XpS"], ["created_at", "2018-04-16 22:25:19.864018"], ["updated_at", "2018-04-16 22:25:19.864018"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "Lets make this content unique"], ["user_id", 9], ["created_at", "2018-04-16 22:25:19.867188"], ["updated_at", "2018-04-16 22:25:19.867188"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 2ms (Views: 2.1ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"JVaY3mj6hWe2UFji2b1iJGuBC4UOdcpWG3SnPZNoQnWWmRMKrtA1qJV3P1/WILMhP1xLOiY5PdDSdLF2Wn0C7Q==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/8
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+Started GET "/users/8" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"8"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 8]]
+  Rendered users/show.html.erb within layouts/application (1.6ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+Completed 200 OK in 6ms (Views: 4.0ms | ActiveRecord: 0.5ms)
+Started GET "/users/8" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"8"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 8]]
+  Rendered users/show.html.erb within layouts/application (1.8ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+Completed 200 OK in 6ms (Views: 4.3ms | ActiveRecord: 0.5ms)
+Started POST "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#create as HTML
+  Parameters: {"utf8"=>"✓", "secret"=>{"content"=>"My new secret"}, "commit"=>"Create Secret"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "My new secret"], ["user_id", 8], ["created_at", "2018-04-16 22:25:19.908271"], ["updated_at", "2018-04-16 22:25:19.908271"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+Redirected to http://www.example.com/users/8
+Completed 302 Found in 5ms (ActiveRecord: 1.2ms)
+Started GET "/users/8" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"8"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 8]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  Rendered users/show.html.erb within layouts/application (2.6ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 8]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+Completed 200 OK in 7ms (Views: 5.6ms | ActiveRecord: 0.5ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$ZnpvdnzkOEQUEv07t7fMj.qEWvh2o001n9YM0wZ0qQKnN8fhDjmBe"], ["created_at", "2018-04-16 22:25:19.931076"], ["updated_at", "2018-04-16 22:25:19.931076"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'user@user.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "user@user.com"], ["password_digest", "$2a$04$jQ15x0q3EDwBGRZAvjnycuEBLekZ8HhoEL7z7rYnrSBgqrBBccKlu"], ["created_at", "2018-04-16 22:25:19.936862"], ["updated_at", "2018-04-16 22:25:19.936862"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "Lets make this content unique"], ["user_id", 11], ["created_at", "2018-04-16 22:25:19.939873"], ["updated_at", "2018-04-16 22:25:19.939873"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 2ms (Views: 2.1ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"q/oca7LACJPSOGbF90HPrNaxmeFOksp7vm9p5NVWOmjKd/VjlUqwEifBwWnYe+au6zrcjy3X2BifaXg0UATfoA==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/10
+Completed 302 Found in 3ms (ActiveRecord: 0.3ms)
+Started GET "/users/10" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"10"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 10]]
+  Rendered users/show.html.erb within layouts/application (1.7ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+Completed 200 OK in 6ms (Views: 4.0ms | ActiveRecord: 0.5ms)
+Started GET "/users/10" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"10"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 10]]
+  Rendered users/show.html.erb within layouts/application (1.6ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+Completed 200 OK in 5ms (Views: 3.8ms | ActiveRecord: 0.5ms)
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 10], ["created_at", "2018-04-16 22:25:19.973671"], ["updated_at", "2018-04-16 22:25:19.973671"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/users/10" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"10"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  Rendered users/show.html.erb within layouts/application (1.9ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+Completed 200 OK in 5ms (Views: 4.0ms | ActiveRecord: 0.5ms)
+Started DELETE "/secrets" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by SecretsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"ijbGcNkF3FOwJyPwgXEUd9ilXkCUUE5kKWulX9YsAczruy94/o9k0kXehFyuSz115S4bLvcVXAcIbbSPU37kBA==", "secret_id"=>"10"}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mSecret Load (0.3ms)[0m  SELECT  "secrets".* FROM "secrets" WHERE "secrets"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  DELETE FROM "secrets" WHERE "secrets"."id" = $1  [["id", 10]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+Redirected to http://www.example.com/users/10
+Completed 302 Found in 5ms (ActiveRecord: 1.8ms)
+Started GET "/users/10" for 127.0.0.1 at 2018-04-16 15:25:19 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"10"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 10]]
+  Rendered users/show.html.erb within layouts/application (1.4ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 10]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 10]]
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.4ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$l38lOF.r9JkefKTmRq0PDOguiRVr2Ckw0RYt8mG5NQ.a5ii1xdsZO"], ["created_at", "2018-04-16 22:25:20.006807"], ["updated_at", "2018-04-16 22:25:20.006807"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'user@user.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "user@user.com"], ["password_digest", "$2a$04$RlB2oL2W.NwBtXCG0Eibeuv2SkfIREOc1xU8QIZA4k9Y8r.Y1iChm"], ["created_at", "2018-04-16 22:25:20.011465"], ["updated_at", "2018-04-16 22:25:20.011465"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "Lets make this content unique"], ["user_id", 13], ["created_at", "2018-04-16 22:25:20.014245"], ["updated_at", "2018-04-16 22:25:20.014245"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 3ms (Views: 2.3ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"pGBKDvLAj72+CrOZied5E0tbpagD6dyA1oHGc4wUSkdOjYrZIqjk/lyEWcZQwkH4BFlN4a2RiJwd7AKvGPsugw==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/12
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+Started GET "/users/12" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"12"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 12]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 12]]
+  Rendered users/show.html.erb within layouts/application (2.2ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 12]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+Completed 200 OK in 7ms (Views: 5.4ms | ActiveRecord: 0.5ms)
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["content", "MyText"], ["user_id", 12], ["created_at", "2018-04-16 22:25:20.042905"], ["updated_at", "2018-04-16 22:25:20.042905"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SecretsController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets"[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1  [["secret_id", 11]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 12]]
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 13]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 12]]
+  [1m[35mSecret Exists (0.2ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 12], ["id", 11]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1[0m  [["secret_id", 12]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 12]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+  [1m[36mSecret Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1[0m  [["user_id", 12], ["id", 12]]
+  Rendered secrets/index.html.erb within layouts/application (12.2ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 12]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 12]]
+Completed 200 OK in 17ms (Views: 14.6ms | ActiveRecord: 1.5ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$wmbmMUeCX9IyIIP9OXMymeUOv59hnqk1IQUBUrNX0J4Gw54i4IcK2"], ["created_at", "2018-04-16 22:25:20.076722"], ["updated_at", "2018-04-16 22:25:20.076722"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'user@user.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "user@user.com"], ["password_digest", "$2a$04$PiXTWj14clcsGVCK7j.mQesN3n.0b4Cw9rC5ng1OHtFIs2hDKfr66"], ["created_at", "2018-04-16 22:25:20.082518"], ["updated_at", "2018-04-16 22:25:20.082518"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["content", "Lets make this content unique"], ["user_id", 15], ["created_at", "2018-04-16 22:25:20.094016"], ["updated_at", "2018-04-16 22:25:20.094016"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"xcyzSvHAJGEKioczh1Jnl0yBgT4WtEgoVWhFQmZ4UW6SIemkx1TOvams4u3HJXM45mTwPVCGUm8awbFxqs7R9Q==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/14
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+Started GET "/users/14" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"14"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 14]]
+  Rendered users/show.html.erb within layouts/application (2.0ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+Completed 200 OK in 6ms (Views: 4.6ms | ActiveRecord: 0.4ms)
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 14], ["created_at", "2018-04-16 22:25:20.123332"], ["updated_at", "2018-04-16 22:25:20.123332"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/secrets" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SecretsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mSecret Load (0.3ms)[0m  SELECT "secrets".* FROM "secrets"
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1[0m  [["secret_id", 13]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 15]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mSecret Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1[0m  [["user_id", 14], ["id", 13]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "likes" WHERE "likes"."secret_id" = $1  [["secret_id", 14]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mSecret Exists (0.2ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 14], ["id", 14]]
+  Rendered secrets/index.html.erb within layouts/application (10.6ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+Completed 200 OK in 15ms (Views: 12.5ms | ActiveRecord: 1.6ms)
+Started DELETE "/secrets" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SecretsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"nvgIAfa8Eiml/nDA2Uux1xX3yHaKuS0C4m0o42SdmsjJFVLvwCj49QbYFR6ZPKV4vxK5dcyLN0WtxNzQqCsaUw==", "secret_id"=>"14"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT  "secrets".* FROM "secrets" WHERE "secrets"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.5ms)[0m  [1mDELETE FROM "secrets" WHERE "secrets"."id" = $1[0m  [["id", 14]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+Redirected to http://www.example.com/users/14
+Completed 302 Found in 6ms (ActiveRecord: 1.6ms)
+Started GET "/users/14" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"14"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 14]]
+  Rendered users/show.html.erb within layouts/application (2.0ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 14]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 14]]
+Completed 200 OK in 7ms (Views: 4.8ms | ActiveRecord: 0.5ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$QYgl0fhzT3S485JBz24x3uQ2Xgy1AU/9MaWsd3Xslf9CiTddBpshC"], ["created_at", "2018-04-16 22:25:20.172063"], ["updated_at", "2018-04-16 22:25:20.172063"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$k3g5ElKANEVXdqS2ojBzReyF4XIZK8hv6XmgUTQ81SocC22Pncrnq"], ["created_at", "2018-04-16 22:25:20.187660"], ["updated_at", "2018-04-16 22:25:20.187660"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 2.0ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"wf6AS5FuoJ+ZIQeFwW+1rvT34JxAcUX3MNB7+nv462+QHqdE8JGz2PhFTUut+hjujhrfzn2g7AQpQY1wjmb/UA==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/17
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+Started GET "/users/17" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"17"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 17]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 17]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 17]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 17]]
+  Rendered users/show.html.erb within layouts/application (1.9ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 17]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 17]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 17]]
+Completed 200 OK in 7ms (Views: 4.5ms | ActiveRecord: 0.6ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$dX.gltZfqt6WwDTHRsK0MOyzTF2F075.g3nrRSDdtquSDnH64iBz6"], ["created_at", "2018-04-16 22:25:20.222809"], ["updated_at", "2018-04-16 22:25:20.222809"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"gzhHpcIBi0ezjm0adCNzvsO2OLuaFmvwWbg6LuSV/VxAEQ1miI9urDksMRS0zfrj+wdBMA6sG9h4qrZLFuSxzQ==", "email"=>"wrong email", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "wrong email"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/sessions/new
+Completed 302 Found in 2ms (ActiveRecord: 0.2ms)
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 2.0ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$w5HPrecDIRYPEY8SvMoBveOYxwYPNxNGeIAAiIOwZ6v2aGWVDfP92"], ["created_at", "2018-04-16 22:25:20.254126"], ["updated_at", "2018-04-16 22:25:20.254126"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"dsbefEb3t4d3vqKtwndwrWfPGjglgHkOJ2x8inH7atCxaQMjhJlTnDbzYPwt3rM/scP9+Y9tDkPOQ9z1ZqEhKg==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/sessions/new
+Completed 302 Found in 4ms (ActiveRecord: 0.2ms)
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$e4JQ1zrE/srfQBKfrpLE7epAfW6/Tv96xIyn9kjyGSkcropQbEgLm"], ["created_at", "2018-04-16 22:25:20.290081"], ["updated_at", "2018-04-16 22:25:20.290081"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"wN8HM9Q8kVQu0ODZJCS4Qs7pbxWtp6G2v7i8hpyRpxAJF3qPGYH/QyVzynRg9bkdwqxobbV5Pem01RH6xWY7ZQ==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/20
+Completed 302 Found in 4ms (ActiveRecord: 0.3ms)
+Started GET "/users/20" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"20"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 20]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 20]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 20]]
+  [1m[36mSecret Load (0.3ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 20]]
+  Rendered users/show.html.erb within layouts/application (1.6ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 20]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 20]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 20]]
+Completed 200 OK in 6ms (Views: 4.2ms | ActiveRecord: 0.5ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$Vo8DuEA3uR9zqm1zheVptuKbic0RE6NEsyK1ewTPuCipbHW9sRkW2"], ["created_at", "2018-04-16 22:25:20.321484"], ["updated_at", "2018-04-16 22:25:20.321484"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"kQYCohnoUu3WJbbO1De7eFuOfjV3GKgBgnK0CITg5u7aLDXymzVqyJizYmfKNTWXoixvOmlO87h7Z5ArIlHeKQ==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/21
+Completed 302 Found in 3ms (ActiveRecord: 0.3ms)
+Started GET "/users/21" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"21"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 21]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 21]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 21]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 21]]
+  Rendered users/show.html.erb within layouts/application (1.5ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 21]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 21]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 21]]
+Completed 200 OK in 6ms (Views: 4.1ms | ActiveRecord: 0.5ms)
+Started DELETE "/sessions/21" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"HJBrQK1CTo4viA7WcBkE6VHfV2nqsXwrmQE/AeLNbW1XulwQL592q2Ee2n9uG4oGqH1GZvTnJ5JgFBsiRHxVqg==", "id"=>"21"}
+Redirected to http://www.example.com/sessions/new
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$nktyhVffBINiOA8BgFMEzukZVCcVwUEswC2hAIaNs506YDQUdxr4i"], ["created_at", "2018-04-16 22:25:20.368391"], ["updated_at", "2018-04-16 22:25:20.368391"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/users/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 7ms (Views: 6.6ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$zzN6ilxy.ONl/MWDQ95NeOPmxNv.n9Lot3vEmBdiXgEybXdwFQ22G"], ["created_at", "2018-04-16 22:25:20.388513"], ["updated_at", "2018-04-16 22:25:20.388513"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/users/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 3ms (Views: 2.3ms | ActiveRecord: 0.0ms)
+Started POST "/users/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#create as HTML
+  Parameters: {"utf8"=>"✓", "user"=>{"name"=>"", "email"=>"", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Join"}
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = '' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/users/new
+Completed 302 Found in 13ms (ActiveRecord: 0.8ms)
+Started GET "/users/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 3ms (Views: 2.3ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$AdGVmgMFUSADtgJ538U/LOhA56crY50R/uY3EWHCvmfFhPgmLUe.O"], ["created_at", "2018-04-16 22:25:20.423255"], ["updated_at", "2018-04-16 22:25:20.423255"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/users/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.0ms)
+Started POST "/users/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#create as HTML
+  Parameters: {"utf8"=>"✓", "user"=>{"name"=>"curry", "email"=>"curry@warriors.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Join"}
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'curry@warriors.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "curry"], ["email", "curry@warriors.com"], ["password_digest", "$2a$04$Qw01LbkfSJwKUlU2eK3B3uen6lCggx2TAAHkoDflEaJ0uw0fwqUj2"], ["created_at", "2018-04-16 22:25:20.441835"], ["updated_at", "2018-04-16 22:25:20.441835"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/sessions/new
+Completed 302 Found in 5ms (ActiveRecord: 0.9ms)
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$zabM5cpSvsbev4xo4sSYIOcBypK4RusrOdkjFveP17ZOW.P4N6N4."], ["created_at", "2018-04-16 22:25:20.452679"], ["updated_at", "2018-04-16 22:25:20.452679"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"H2yYytZDAtJJXSXbkCERCfTVHqrinoUYGKPGl/6rDWdfyCDGDh6Vn/RiLHww2l/q7TrqSKW4WxrD5BKwvpl0vA==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/26
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+Started GET "/users/26" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"26"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 26]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 26]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 26]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 26]]
+  Rendered users/show.html.erb within layouts/application (1.4ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 26]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 26]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 26]]
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.4ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$hstVURA2eS/KwNre3s3yveasgqG7BsFfIAI33yjNIPzskl4tTuTJ2"], ["created_at", "2018-04-16 22:25:20.482152"], ["updated_at", "2018-04-16 22:25:20.482152"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 2.0ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"pX/Qbxi3WZgsEL1Pw3hPrZWaO3haUBZ2zPmfH67othpMA++GKZMf7nS0P8K8USf4aluqk7IZkDJbDoMlD6Y3EQ==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/27
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+Started GET "/users/27" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"27"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 27]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 27]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 27]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 27]]
+  Rendered users/show.html.erb within layouts/application (1.3ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 27]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 27]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 27]]
+Completed 200 OK in 5ms (Views: 3.4ms | ActiveRecord: 0.4ms)
+Started GET "/users/27/edit" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"27"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 27]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 27]]
+  Rendered users/edit.html.erb within layouts/application (1.8ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 27]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 27]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 27]]
+Completed 200 OK in 7ms (Views: 6.2ms | ActiveRecord: 0.2ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$Q2O4drQXQdNNmX46ptZBQOlkeucEGBZ3FxB4VVrcIPhvOPL1Xi8JW"], ["created_at", "2018-04-16 22:25:20.520030"], ["updated_at", "2018-04-16 22:25:20.520030"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"1SoaYT6JgqYghCtSTU57UpGXRSyOgASRe0bGCur+aRy/z/b3W3x3KvSZq94wIY7NeJ1YKutOul06rPkE6isLGA==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/28
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+Started GET "/users/28" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"28"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 28]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 28]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 28]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 28]]
+  Rendered users/show.html.erb within layouts/application (1.4ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 28]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 28]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 28]]
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.4ms)
+Started GET "/users/28/edit" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"28"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 28]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 28]]
+  Rendered users/edit.html.erb within layouts/application (1.3ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 28]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 28]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 28]]
+Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.3ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$pmf824iGiVsu57qN09rMJ.jOeb/1BNq6yh0yQV9QDlX0IZeDo/PcO"], ["created_at", "2018-04-16 22:25:20.557081"], ["updated_at", "2018-04-16 22:25:20.557081"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 2ms (Views: 2.0ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"yIazUKdDiXRk+1MLgd4aU48+XcQAneMyYVOLgdRzE7m7VO/9a14+Tixq5OX63Uuas2qwHTAaZIvmqFZr8SEeCQ==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/29
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+Started GET "/users/29" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"29"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 29]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 29]]
+  Rendered users/show.html.erb within layouts/application (1.5ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 29]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+Completed 200 OK in 5ms (Views: 3.8ms | ActiveRecord: 0.5ms)
+Started GET "/users/29/edit" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"29"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 29]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+  Rendered users/edit.html.erb within layouts/application (1.3ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 29]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 29]]
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.2ms)
+Started PATCH "/users/29" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "user"=>{"name"=>"Another Name", "email"=>"incorrect email format"}, "commit"=>"Update", "id"=>"29"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE ("users"."email" = 'incorrect email format' AND "users"."id" != 29) LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+Redirected to http://www.example.com/users/29/edit
+Completed 302 Found in 5ms (ActiveRecord: 1.0ms)
+Started GET "/users/29/edit" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"29"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 29]]
+  Rendered users/edit.html.erb within layouts/application (1.3ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 29]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 29]]
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.3ms)
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$HhKhTiHNx.QKMhFuZ/Du/.znNgJq5TkUbDTBew3cbc6bdQBDwYsVK"], ["created_at", "2018-04-16 22:25:20.611834"], ["updated_at", "2018-04-16 22:25:20.611834"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 2ms (Views: 2.0ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"PP7Pr6hSQCqdjLq1nIKvN/qQT/MyVf0qkM+uuXyZpTH1MNlRLQWI47B8YLyh4p95sVX9x5iK4Q45QosgNAgFvQ==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/30
+Completed 302 Found in 4ms (ActiveRecord: 0.3ms)
+Started GET "/users/30" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"30"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  [1m[35mSecret Load (0.2ms)[0m  SELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1  [["user_id", 30]]
+  Rendered users/show.html.erb within layouts/application (1.6ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+Completed 200 OK in 6ms (Views: 4.0ms | ActiveRecord: 0.5ms)
+Started GET "/users/30/edit" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"30"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  Rendered users/edit.html.erb within layouts/application (1.3ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.3ms)
+Started PATCH "/users/30" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "user"=>{"name"=>"Another Name", "email"=>"correct@email.com"}, "commit"=>"Update", "id"=>"30"}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE ("users"."email" = 'correct@email.com' AND "users"."id" != 30) LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  UPDATE "users" SET "name" = $1, "email" = $2, "updated_at" = $3 WHERE "users"."id" = $4  [["name", "Another Name"], ["email", "correct@email.com"], ["updated_at", "2018-04-16 22:25:20.654334"], ["id", 30]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/users/30
+Completed 302 Found in 7ms (ActiveRecord: 1.4ms)
+Started GET "/users/30" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"30"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 30]]
+  Rendered users/show.html.erb within layouts/application (1.5ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 30]]
+Completed 200 OK in 6ms (Views: 4.0ms | ActiveRecord: 0.5ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$qJd1Rv9DQp0usehwO0c8ze8rTMviQoBsprSjnEAWiEI5cKsWwU/YC"], ["created_at", "2018-04-16 22:25:20.673789"], ["updated_at", "2018-04-16 22:25:20.673789"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/sessions/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 2ms (Views: 2.1ms | ActiveRecord: 0.0ms)
+Started POST "/sessions/create" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"UQ7kky5coc2Zbf0aDnxckb98WoLfERsmeX0L8Qk8Y1iYMdKcecw7sAK/H1csRkAR+9d//P70yImUfTv/9Oa5vw==", "email"=>"oscar@gmail.com", "password"=>"[FILTERED]", "in"=>"sessions#create"}
+Unpermitted parameters: authenticity_token, in
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "oscar@gmail.com"]]
+Unpermitted parameters: authenticity_token, in
+Redirected to http://www.example.com/users/31
+Completed 302 Found in 4ms (ActiveRecord: 0.3ms)
+Started GET "/users/31" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"31"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 31]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 31]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 31]]
+  [1m[36mSecret Load (0.2ms)[0m  [1mSELECT "secrets".* FROM "secrets" WHERE "secrets"."user_id" = $1[0m  [["user_id", 31]]
+  Rendered users/show.html.erb within layouts/application (1.5ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 31]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 31]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 31]]
+Completed 200 OK in 6ms (Views: 3.9ms | ActiveRecord: 0.5ms)
+Started GET "/users/31/edit" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"31"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 31]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 31]]
+  Rendered users/edit.html.erb within layouts/application (1.3ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 31]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 31]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 31]]
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.2ms)
+Started DELETE "/users/31" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#destroy as HTML
+  Parameters: {"authenticity_token"=>"9AZKSSpi+XEw8VjALAQ4WpXJKas2aaKn4DjUyaarTTk9OXxGffJjDKsjuo0OPiTa0WIM1ReMcQgNOOTHW3GX3g==", "id"=>"31"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 31]]
+Redirected to http://www.example.com/users/new
+Completed 302 Found in 1ms (ActiveRecord: 0.2ms)
+Started GET "/users/new" for 127.0.0.1 at 2018-04-16 15:25:20 -0700
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (0.7ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 31]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 31]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 31]]
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.2ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$/3u4pEjNutdQJ.Z9iu79F.PxEyxltei5ZRPkPRhIO9f.Y.uPYXh8W"], ["created_at", "2018-04-16 22:25:20.721415"], ["updated_at", "2018-04-16 22:25:20.721415"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 32], ["created_at", "2018-04-16 22:25:20.724210"], ["updated_at", "2018-04-16 22:25:20.724210"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 32], ["secret_id", 15], ["created_at", "2018-04-16 22:25:20.726869"], ["updated_at", "2018-04-16 22:25:20.726869"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$S0i4t7c.1mzYcJaZmDl9D.ZCTXurQyTGQImCzU0FdS1a6//L1OqQ."], ["created_at", "2018-04-16 22:25:20.733339"], ["updated_at", "2018-04-16 22:25:20.733339"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 33], ["created_at", "2018-04-16 22:25:20.736044"], ["updated_at", "2018-04-16 22:25:20.736044"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 33], ["secret_id", 16], ["created_at", "2018-04-16 22:25:20.738442"], ["updated_at", "2018-04-16 22:25:20.738442"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$Nyhc4njyGJq0aXYJtsv8keyhF17/pqJK3Qe2giMsVAo2apPnDXTt2"], ["created_at", "2018-04-16 22:25:20.747599"], ["updated_at", "2018-04-16 22:25:20.747599"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 34], ["created_at", "2018-04-16 22:25:20.749885"], ["updated_at", "2018-04-16 22:25:20.749885"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 34], ["secret_id", 17], ["created_at", "2018-04-16 22:25:20.752292"], ["updated_at", "2018-04-16 22:25:20.752292"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$BTgRwiVA47VYAjlM2fcnW.PsWxSXzz9wXpnGUQ97nS231/oTHhnZ6"], ["created_at", "2018-04-16 22:25:20.768848"], ["updated_at", "2018-04-16 22:25:20.768848"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "MyText"], ["user_id", 35], ["created_at", "2018-04-16 22:25:20.771775"], ["updated_at", "2018-04-16 22:25:20.771775"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 35], ["secret_id", 18], ["created_at", "2018-04-16 22:25:20.774272"], ["updated_at", "2018-04-16 22:25:20.774272"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mLike Exists (0.3ms)[0m  SELECT  1 AS one FROM "likes" WHERE "likes"."secret_id" = $1 AND "likes"."id" = $2 LIMIT 1  [["secret_id", 18], ["id", 7]]
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$w/wS/5.ud39oBS71TvGjRu8jXlHX6a7Rkl4HDsu0vnGoPY0t5LZGy"], ["created_at", "2018-04-16 22:25:20.786668"], ["updated_at", "2018-04-16 22:25:20.786668"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["content", "MyText"], ["user_id", 36], ["created_at", "2018-04-16 22:25:20.789359"], ["updated_at", "2018-04-16 22:25:20.789359"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 36], ["secret_id", 19], ["created_at", "2018-04-16 22:25:20.791867"], ["updated_at", "2018-04-16 22:25:20.791867"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" INNER JOIN "likes" ON "users"."id" = "likes"."user_id" WHERE "likes"."secret_id" = $1 AND "users"."id" = $2 LIMIT 1[0m  [["secret_id", 19], ["id", 36]]
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "email@gmail.com"], ["password_digest", "$2a$04$/IFbe2SWeRDK9q/npxF8bOQUB8.FclJtEL4BiH2xtlzd1EZ62H.2a"], ["created_at", "2018-04-16 22:25:20.811122"], ["updated_at", "2018-04-16 22:25:20.811122"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = '' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = '@user' LIMIT 1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = '@example.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$.x9ONmHBS.PuPHEds0zgRuThdZiS6lQ1jMIRbvTEnKrVVn29mDGKG"], ["created_at", "2018-04-16 22:25:20.835430"], ["updated_at", "2018-04-16 22:25:20.835430"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$hO/9tyxHmGwrlR1UW7ZRHe51dfWTHtbJUJBefUj3Jq7n6w5JEDF7G"], ["created_at", "2018-04-16 22:25:20.854095"], ["updated_at", "2018-04-16 22:25:20.854095"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "secret 1"], ["user_id", 39], ["created_at", "2018-04-16 22:25:20.856897"], ["updated_at", "2018-04-16 22:25:20.856897"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 39], ["secret_id", 20], ["created_at", "2018-04-16 22:25:20.859729"], ["updated_at", "2018-04-16 22:25:20.859729"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSecret Exists (0.3ms)[0m  SELECT  1 AS one FROM "secrets" WHERE "secrets"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 39], ["id", 20]]
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$5YYj59Cwn/ulSII0ECr9KOHHeb6i6I0eUtMPTsfYoenQUMZRLZCDm"], ["created_at", "2018-04-16 22:25:20.867642"], ["updated_at", "2018-04-16 22:25:20.867642"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["content", "secret 1"], ["user_id", 40], ["created_at", "2018-04-16 22:25:20.870217"], ["updated_at", "2018-04-16 22:25:20.870217"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 40], ["secret_id", 21], ["created_at", "2018-04-16 22:25:20.872787"], ["updated_at", "2018-04-16 22:25:20.872787"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mLike Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "likes" WHERE "likes"."user_id" = $1 AND "likes"."id" = $2 LIMIT 1[0m  [["user_id", 40], ["id", 10]]
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'oscar@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["name", "Oscar Vazquez"], ["email", "oscar@gmail.com"], ["password_digest", "$2a$04$wk7.C9VycDkEc3k2JvC/XOK13eE17drJdbsKoDvq7XItEqRPjj1MS"], ["created_at", "2018-04-16 22:25:20.881300"], ["updated_at", "2018-04-16 22:25:20.881300"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "secrets" ("content", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["content", "secret 1"], ["user_id", 41], ["created_at", "2018-04-16 22:25:20.884082"], ["updated_at", "2018-04-16 22:25:20.884082"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "likes" ("user_id", "secret_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["user_id", 41], ["secret_id", 22], ["created_at", "2018-04-16 22:25:20.886524"], ["updated_at", "2018-04-16 22:25:20.886524"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSecret Exists (0.2ms)[0m  SELECT  1 AS one FROM "secrets" INNER JOIN "likes" ON "secrets"."id" = "likes"."secret_id" WHERE "likes"."user_id" = $1 AND "secrets"."id" = $2 LIMIT 1  [["user_id", 41], ["id", 22]]
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m

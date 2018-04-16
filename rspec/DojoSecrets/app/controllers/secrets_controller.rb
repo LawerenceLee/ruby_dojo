@@ -1,4 +1,6 @@
 class SecretsController < ApplicationController
+  before_action :require_login
+
   def index
     @secrets = Secret.all
   end
@@ -20,7 +22,5 @@ class SecretsController < ApplicationController
     end
     redirect_to "/users/#{current_user.id}"
   end
-
-
 
 end
