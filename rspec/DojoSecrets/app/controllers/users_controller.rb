@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @secrets = current_user.secrets
   end
 
   def edit
