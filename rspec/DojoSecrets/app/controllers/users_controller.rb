@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :edit, :update, :destroy]
+  before_action :check_permission, only: [:show, :edit, :update, :destroy]
 
   def new
   end
@@ -46,5 +47,12 @@ class UsersController < ApplicationController
 
     def user_edit_params
       params.require(:user).permit(:name, :email)
+    end
+
+    def check_permission
+      if current_user.id != params[:id].to_i
+        flash[:errors] = ['You do not have permission to do that']
+        redirect_to :new_session
+      end
     end
 end
