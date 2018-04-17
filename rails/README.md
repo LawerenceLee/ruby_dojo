@@ -135,6 +135,19 @@ class Person < ApplicationRecord
     validates :registration_number, length: { is: 6 }
 end
 ```
+
+#### Before Validation
+```ruby
+class User < ActiveRecord::Base
+  has_secure_password
+  before_validation :normalize_email, on: :create
+  
+  private
+    def normalize_email
+      self.email = email.downcase
+    end
+end
+```
 *** 
 ## Routing
 
@@ -198,6 +211,43 @@ end
 
 ### Destroying Controllers
 `$ rails d controller Controller_name`
+
+### Helper Method, Auth, Testing
+```ruby
+# inside application_controller.rb
+class ApplicationController < ActionController::Base
+  # ...
+  def current_user
+    User.find(session[:user_id]) if session[:user_id]
+  end
+  helper_method :current_user
+end
+
+# inside app/views/layouts/application.html.erb
+<body>
+<% if flash[:errors] %>
+  <% flash[:errors].each do |e| %>
+    <%= e %>
+  <% end %>
+<% end %>
+<% if current_user %>
+  <form action="/sessions/<%=current_user.id%>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Log Out">
+  </form>
+<% end %> 
+<%= yield %>
+</body>
+
+# For testing, insert the following in spec/spec_helper
+def log_in email: "oscar@gmail.com", password: "password"
+  visit '/sessions/new' unless current_path == "/sessions/new"
+  fill_in 'Email', with: email
+  fill_in 'Password', with: password
+  click_button 'Log In'
+end
+```
 
 ### Rendering a simple line of text
 ```ruby
