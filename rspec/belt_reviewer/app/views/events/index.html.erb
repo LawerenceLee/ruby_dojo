@@ -1,0 +1,38 @@
+<%= link_to  "Edit My Profile", "/users/#{current_user.id}/edit" %>
+<%= link_to  "Logout", "/sessions/logout" %>
+
+<h1>Welcome, <%= current_user.first_name %></h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Host</th>
+        <th>Action/Status</th>
+    </tr>
+    <% @user_state_events.each do |event| %>
+    <tr>
+        <td><%= event.name  %></td>
+        <td><%= event.formatted_date  %></td>
+        <td><%= event.location  %></td>
+        <td><%= event.user.first_name  %></td>
+        <td>
+            <% if event.user.id == current_user.id %>
+                <%= link_to "Edit", "/events/#{event.id}/edit" %>
+                <%= form_for :event, url: "/events/#{event.id}" do |f|  %>
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="_method" value="delete"> 
+                    <%= submit_tag "Delete" %>
+                <% end %>
+            <% else %>
+                <% if event.attendees.include?(current_user.id) %>
+                    <p>Joining</p>
+                <% else %>
+                    <p>Join</p>
+                <% end %>
+            <% end %>
+        </td>
+    <% end %>
+    </tr>
+</table>

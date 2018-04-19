@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: { case_sensitiveness: false }, format: { with: EMAIL_REGEX }
-  validates :first_name, :last_name, :password, presence: true
+  validates :first_name, :last_name, :location, :state, presence: true
 
   private
     def noramlize_email

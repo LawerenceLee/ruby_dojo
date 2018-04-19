@@ -21,9 +21,6 @@ You may find what's logged in the console to be too much, making it harder for y
 #### New Model
     $ rails g model ModelName field_name1:string field_name2:text
 
-Optional Arguments:
-* --skip-jbuilder: stops Rails from building the files that make it easy to return db data in Json format
-* --skip-assets: Stops Rails from building CSS or JS files that would typically be generated from the cmd being run
 
 #### New Model w/ Foreign Key
     $ rails g model ModelName lower_case_model_name:references
@@ -47,6 +44,11 @@ or
 $ rails g controller <ControllerNamePluralUpperCase> <methods space seperated>
 ```
 *Created a file: `app/controllers/<ControllerNamePluralLowerCase>_controller.rb.`*
+
+Optional Arguments:
+* --skip-jbuilder: stops Rails from building the files that make it easy to return db data in Json format
+* --skip-assets: Stops Rails from building CSS or JS files that would typically be generated from the cmd being run
+* --skip-template-engine: Stop rails from building the html views
 ***
 ## ORM
 

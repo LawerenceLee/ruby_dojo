@@ -8,7 +8,7 @@
 </head>
 <body>
 <% flash.each do |key, value| %>
-  <% if key = "errors" %>
+  <% if key == "errors" %>
     <% flash[:errors].each do |e| %>
       <p><%= e %></p>
     <% end %>

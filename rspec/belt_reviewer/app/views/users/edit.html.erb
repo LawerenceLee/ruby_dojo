@@ -1,2 +1,12 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<%= link_to  "Logout", "/sessions/logout" %>
+<%= link_to "Events Dashboard", "/events" %>
+<h1>Edit Your Profile</h1>
+
+<%= form_for current_user, url: "/users/#{current_user.id}" do |f| %>
+    <p>First Name: <%= f.text_field :first_name %></p>
+    <p>Last Name: <%= f.text_field :last_name%></p>
+    <p>Email <%= f.text_field :email %></p>
+    <p>Location: <%= f.text_field :location %></p>
+    <p><%= select_tag :state, options_for_select(us_states) %></p>
+    <%= submit_tag "Update Records" %>
+<% end %>
