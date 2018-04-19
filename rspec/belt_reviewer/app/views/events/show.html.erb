@@ -1,2 +1,39 @@
-<h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<br><%= link_to "Events Dashboard", "/events" %>
+<h1><%= @event.name %></h1>
+
+<h3>Host: <%= @event.user.full_name  %></h3>
+<h3>Date: <%= @event.formatted_date  %></h3>
+<h3>Location: <%= @event.location  %>, <%= @event.state  %></h3>
+<p>People who are joining the event <%= @event.attendees.count %></p>
+<br>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>State</th>
+    </tr>
+    <% @event.attendees.each do |attendee| %>
+    <tr>
+        <td><%= attendee.full_name %></td>
+        <td><%= attendee.location %></td>
+        <td><%= attendee.state %></td>
+    </tr>
+    <% end %>
+</table>
+<br>
+
+<h3>Discussion about this event:</h3>
+
+<div style="overflow: auto; width:300px; height:200px;">
+    <% @event.comments.each do |comment| %>
+        <p><%= comment.user.first_name %> says: <%= comment.content %></p>
+        <p>*------*-------*-------*</p>
+    <% end %>
+</div>
+<h4>Add Comment</h4>
+<%= form_for :comment, url: "/comments" do |f| %>
+    <textarea rows="5", cols="100" name="content"></textarea>
+    <input type="hidden" name="event_id" value="<%= @event.id %>">
+    <%= submit_tag "Add Comment" %>
+<% end %>

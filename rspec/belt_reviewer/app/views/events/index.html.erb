@@ -1,9 +1,7 @@
-<%= link_to  "Edit My Profile", "/users/#{current_user.id}/edit" %>
-<%= link_to  "Logout", "/sessions/logout" %>
-
+<br><%= link_to  "Edit My Profile", "/users/#{current_user.id}/edit" %>
 <h1>Welcome, <%= current_user.first_name %></h1>
 
-<table>
+<table class="table">
     <tr>
         <th>Name</th>
         <th>Date</th>
@@ -13,7 +11,7 @@
     </tr>
     <% @user_state_events.each do |event| %>
     <tr>
-        <td><%= event.name  %></td>
+        <td><%= link_to event.name, "/events/#{event.id}" %></a></td>
         <td><%= event.formatted_date  %></td>
         <td><%= event.location  %></td>
         <td><%= event.user.first_name  %></td>
@@ -26,13 +24,61 @@
                     <%= submit_tag "Delete" %>
                 <% end %>
             <% else %>
-                <% if event.attendees.include?(current_user.id) %>
+                <% if event.attendees.include?(current_user) %>
                     <p>Joining</p>
+                    <%= link_to "Cancel", "/events/#{event.id}/cancel" %>
                 <% else %>
-                    <p>Join</p>
+                    <%= link_to "Join", "/events/#{event.id}/attend" %>
                 <% end %>
             <% end %>
         </td>
     <% end %>
     </tr>
 </table>
+<br>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>State</th>
+        <th>Host</th>
+        <th>Action/Status</th>
+    </tr>
+    <% @other_events.each do |event| %>
+    <tr>
+        <td><%= link_to event.name, "/events/#{event.id}" %></a></td>
+        <td><%= event.formatted_date  %></td>
+        <td><%= event.location  %></td>
+        <td><%= event.state  %></td>
+        <td><%= event.user.first_name  %></td>
+        <td>
+            <% if event.user.id == current_user.id %>
+                <%= link_to "Edit", "/events/#{event.id}/edit" %>
+                <%= form_for :event, url: "/events/#{event.id}" do |f|  %>
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="_method" value="delete"> 
+                    <%= submit_tag "Delete" %>
+                <% end %>
+            <% else %>
+                 <% if event.attendees.include?(current_user) %>
+                    <p>Joining</p>
+                    <%= link_to "Cancel", "/events/#{event.id}/cancel" %>
+                <% else %>
+                    <%= link_to "Join", "/events/#{event.id}/attend" %>
+                <% end %>
+            <% end %>
+        </td>
+    <% end %>
+    </tr>
+</table>
+<br>
+
+<h1>Add Event</h1>
+<%= form_for :event, url: "/events" do |f| %>
+    <p>Name: <%= f.text_field :name %></p>
+    <p>Date (YYYY-MM-DD): <%= f.text_field :event_date %></p>
+    <p>Location: <%= f.text_field :location %></p>
+    <p>State: <%= select_tag :state, options_for_select(us_states) %></p>
+    <%= submit_tag "Add Event" %>
+<% end %>

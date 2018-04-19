@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
+  post    'comments'                => "comments#create"
+
   get    'events'                  => "events#index", as: :events
   post   'events'                  => "events#create"
-  patch  'events/:event_id/edit'   => "events#edit"
+  get    'events/:event_id/attend' => "events#attend"
+  get    'events/:event_id/cancel' => "events#cancel"
+  get    'events/:event_id/edit'   => "events#edit"
+  patch  'events/:event_id'        => "events#update"
   delete 'events/:event_id'        => 'events#destroy'
   get    'events/:event_id'        => 'events#show'
 

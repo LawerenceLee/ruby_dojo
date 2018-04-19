@@ -1,0 +1,9 @@
+<br><%= link_to "Events Dashboard", "/events" %>
+<h1>Edit Event</h1>
+<%= form_for @event, url: "/events/#{@event.id}" do |f| %>
+    <p>Name: <%= f.text_field :name %></p>
+    <p>Date (YYYY-MM-DD): <%= f.text_field :event_date %></p>
+    <p>Location: <%= f.text_field :location %></p>
+    <p>State: <%= select_tag :state, options_for_select(us_states) %></p>
+    <%= submit_tag "Update Event" %>
+<% end %>
