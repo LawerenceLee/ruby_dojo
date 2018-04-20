@@ -34,7 +34,7 @@ $ gem install bundler
 
 # Inside your Gemfile
     # change rails version
-        gem 'rails', '
+        gem 'rails', '5.0.1'
     # change from
         gem 'sqlite3'
     # to
@@ -45,6 +45,7 @@ $ gem install bundler
         end
 
 # cd into proj dir
+$ bundle update
 $ bundle install
 
 $ sudo -u postgres createuser --superuser <your_dev_username>
@@ -67,7 +68,7 @@ $ sudo -u postgres createuser --superuser <your_dev_username>
     database: <proj_name>_production
     username: <your_dev_username>
     # add a password
-    password: <%= ENV['<proj_name_all_caps_no_underscores_or_spaces>_DATABASE_PASSWORD'] %> 
+    password: <%= ENV['<proj_name_all_caps_no_underscores>_DATABASE_PASSWORD'] %> 
 
 # Create the production postgresql tables
 $ RAILS_ENV=production bin/rake db:setup
@@ -87,7 +88,7 @@ $ echo 'SECRET_KEY_BASE=d8c6d91e806b9cc998f43170ff95710b0d44416bc813cca728a32fb0
 
 
 $ RAILS_ENV=production bin/rake assets:precompile
-$ echo 'RAILS_SERVE_STATIC_FILES=true' >> .rbenv-vars
+<!-- $ echo 'RAILS_SERVE_STATIC_FILES=true' >> .rbenv-vars -->
 
 # Configure Nginx
     #Inside rails dir
@@ -132,9 +133,13 @@ $ touch tmp/pids/unicorn.pid
 $ mkdir unicorn
 $ touch unicorn/unicorn.log
 
-# must run just inside app's root dir
+# must run just inside app's root dir (if you reboot re-run this)
 RAILS_ENV=production bundle exec unicorn -c config/unicorn.rb -D
 
 # test server with
 $ sudo service nginx restart
 $ RAILS_ENV=production bin/rails s
+
+
+# Sometimes you need to reboot, when you do
+$ RAILS_ENV=production bundle exec unicorn -c config/unicorn.rb -D
