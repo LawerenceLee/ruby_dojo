@@ -34,6 +34,7 @@ You may find what's logged in the console to be too much, making it harder for y
 #### Migration
     $ rake db:migrate
     $ rake db:migrate:status
+    $ bin/rails g migration Add<attribute name>To<table name pluralized> body:text
 
 #### Controllers
 ```bash
@@ -62,6 +63,18 @@ has_many :ninjas, dependent: :delete_all
 
 
 ### Model Commands
+
+#### Adding an object w/ an association
+We have a post with many comments
+
+    post = Post.find(1)
+    # Creates a new comment for the Post with an id of one
+    comment = post.comments.build
+    # Now you can assign values to the comment's various attributes and call save
+
+    #OR
+
+    post.comment.create(content: "Cool")
 
 #### Destroying Records
 ```ruby
