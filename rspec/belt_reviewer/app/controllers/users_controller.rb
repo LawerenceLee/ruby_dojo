@@ -10,7 +10,7 @@ class UsersController < ApplicationController
       redirect_to :events
     else
       flash[:errors] = @user.errors.full_messages
-      redirect_to '/users'
+      redirect_to '/'
     end
   end
 
